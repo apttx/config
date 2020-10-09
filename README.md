@@ -1,1 +1,3 @@
-# config
+# aptt/config
+
+Personal scripts.
