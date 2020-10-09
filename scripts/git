@@ -1,0 +1,91 @@
+#!/usr/env/dash
+
+alias st="git status"
+alias fe="git fetch"
+alias lg="git log"
+alias br="git branch"
+alias pq="git push -u origin HEAD"
+alias pqnv="git push -u origin HEAD --no-verify"
+alias co="git config user.name && git config user.email"
+
+cl() {
+git clone "$@" && gcf;
+}
+
+pw() {
+git pull "$@";
+}
+
+fp() {
+git fetch && git pull "$@";
+}
+
+a() {
+git add "$@" && git status;
+}
+
+cm() {
+git commit -m "$@";
+}
+
+cz() {
+git-cz --type "$1" --scope "$2" && git status;
+}
+
+ch() {
+git checkout "$@";
+}
+
+cb() {
+git checkout -b "$@";
+}
+
+rb() {
+git rebase "$@";
+}
+
+re() {
+git reset "$@" && git status;
+}
+
+sco() {
+git config user.name "$1" && git config user.email "$2";
+}
+
+bd() {
+git branch -d "$@" && git branch;
+}
+
+source ~/.git-completion.bash
+__git_complete cl _git_clone
+__git_complete pw _git_pull
+__git_complete fp _git_pull
+__git_complete ch _git_checkout
+__git_complete cb _git_checkout
+__git_complete rb _git_rebase
+__git_complete a _git_add
+__git_complete re _git_reset
+__git_complete br _git_branch
+__git_complete pq _git_push
+
+complete -W "chore docs feat fix refactor style test" cz
+
+gitgui() {
+while [ true ]
+do
+clear;
+echo "* GIT GUI *";
+echo "📁 files";
+git status -s;
+echo;
+echo "🌳 branches";
+git branch;
+echo;
+echo "📜 log";
+git log --format="%Cblue[%an]%C(auto) %s %d" --max-count=${1:-10};
+sleep ${2:-3s};
+done 
+}
+
+alias gg="gitgui"
+
