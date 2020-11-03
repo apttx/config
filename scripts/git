@@ -6,10 +6,10 @@ alias lg="git log"
 alias br="git branch"
 alias pq="git push -u origin HEAD"
 alias pqnv="git push -u origin HEAD --no-verify"
-alias co="git config user.name && git config user.email"
+alias cf="git config user.name && git config user.email"
 
 cl() {
-git clone "$@" && gcf;
+git clone "$@" && cf;
 }
 
 pw() {
@@ -48,7 +48,7 @@ re() {
 git reset "$@" && git status;
 }
 
-sco() {
+scf() {
 git config user.name "$1" && git config user.email "$2";
 }
 
@@ -66,6 +66,7 @@ __git_complete rb _git_rebase
 __git_complete a _git_add
 __git_complete re _git_reset
 __git_complete br _git_branch
+__git_complete bd _git_branch
 __git_complete pq _git_push
 
 complete -W "chore docs feat fix refactor style test" cz
