@@ -7,6 +7,7 @@ alias br="git branch"
 alias pq="git push -u origin HEAD"
 alias pqnv="git push -u origin HEAD --no-verify"
 alias cf="git config user.name && git config user.email"
+alias di="git diff"
 
 cl() {
 git clone "$@" && cf;
@@ -68,6 +69,8 @@ __git_complete re _git_reset
 __git_complete br _git_branch
 __git_complete bd _git_branch
 __git_complete pq _git_push
+__git_complete pqnv _git_push
+__git_complete di _git_diff
 
 complete -W "chore docs feat fix refactor style test" cz
 
