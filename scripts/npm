@@ -1,0 +1,21 @@
+#!/usr/env/dash
+
+alias npmpp="npm publish --access public"
+alias npmppt="npm publish --access public --tag"
+alias npmprerelease="npm version prerelease"
+alias npmpatch="npm version patch"
+alias npmminor="npm version minor"
+alias npmmajor="npm version major"
+alias npmremovetag="echo \"<pkg> <tag>\" && npm dist-tag rm"
+
+npmprepatch() {
+  npm version prepatch --preid="$1";
+}
+
+npmpreminor() {
+  npm version preminor --preid="$1";
+}
+
+npmpremajor() {
+  npm version prepatch --preid="$1";
+}
