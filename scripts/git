@@ -1,10 +1,11 @@
-#!/usr/env/dash
+#!/usr/env/bash
 
-alias st="git status"
+alias st="git status -uall -M"
 alias fe="git fetch"
 alias lg="git log"
 alias br="git branch"
 alias pq="git push -u origin HEAD"
+alias pqf="git push -u origin HEAD --force-with-lease"
 alias pqnv="git push -u origin HEAD --no-verify"
 alias cf="git config user.name && git config user.email"
 alias di="git diff"
@@ -17,20 +18,16 @@ pw() {
 git pull "$@";
 }
 
-fp() {
-git fetch && git pull "$@";
-}
-
 a() {
-git add "$@" && git status;
+git add "$@" && st;
 }
 
 cm() {
-git commit -m "$@";
+git commit -m "$@" && st;
 }
 
 cz() {
-git-cz --type "$1" --scope "$2" && git status;
+git-cz --type "$1" --scope "$2" && st;
 }
 
 ch() {
@@ -46,7 +43,11 @@ git rebase "$@";
 }
 
 re() {
-git reset "$@" && git status;
+git reset "$@" && st;
+}
+
+rp(){
+git stash -- "$@" && git stash drop && st;
 }
 
 scf() {
@@ -54,7 +55,25 @@ git config user.name "$1" && git config user.email "$2";
 }
 
 bd() {
-git branch -d "$@" && git branch;
+git branch -d "$@" && br;
+}
+
+dp() {
+git diff -- "*$@*";
+}
+
+dpa() {
+dp "$@" && echo && echo ">>>>>>>>>>>>" && echo && st --short -- "$@" && echo && read -p "^ Add these?" && a "$@";
+}
+
+bdm() {
+for BRANCH in $(git branch --merged | grep -v master)
+do
+read -p "Delete $BRANCH? (y/N)" DELETE;
+if [ "$DELETE" == "y" ]; then
+echo "  🗑️  $BRANCH" && git branch -d "$BRANCH";
+fi
+done
 }
 
 source ~/.git-completion.bash
@@ -65,6 +84,7 @@ __git_complete ch _git_checkout
 __git_complete cb _git_checkout
 __git_complete rb _git_rebase
 __git_complete a _git_add
+__git_complete dpa _git_add
 __git_complete re _git_reset
 __git_complete br _git_branch
 __git_complete bd _git_branch
